@@ -1,23 +1,10 @@
 import { getEnvConfig } from '@beta-titan/shared/utilities';
 import * as mongoose from 'mongoose'
 import * as Redis from 'ioredis';
-import { getConfig } from './config'
 import { ReJSON } from 'redis-modules-sdk'
 import axios from "axios"
 import { Mutex } from 'redis-semaphore'
 import RedisIO from 'ioredis'
-
-//database connection
-// mongoose.Promise = global.Promise;
-const options = {
-  autoIndex: false, 
-  reconnectTries: 100,
-  reconnectInterval: 500, 
-  poolSize: 10, 
-  bufferMaxEntries: 0,
-  useNewUrlParser: true,
-  useFindAndModify :  false
-};
 
 mongoose.connect(String(getEnvConfig('MONGODBPATH')),{}).then(()=>{
     console.log("connected to mongoDB : ", getEnvConfig('MONGODBPATH'));

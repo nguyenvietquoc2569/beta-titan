@@ -19,5 +19,9 @@ const ClientFeedbackSchema: Schema = new Schema({
 })
 
 export type IClientFeedbackMongoose = IClientFeedback & Document
-export const ClientFeedbackModel = models.ClientFeedback || model<IClientFeedbackMongoose>('ClientFeedback', ClientFeedbackSchema);
+const m = () => model<IClientFeedbackMongoose>('ClientFeedback', ClientFeedbackSchema)
+export const ClientFeedbackModel = (models.ClientFeedback || m()) as ReturnType<
+typeof m
+>
+;
 

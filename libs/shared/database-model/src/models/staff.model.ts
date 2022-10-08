@@ -30,4 +30,5 @@ const StaffSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IStaffUserMongoose = IStaffUser & Document
-export const StaffModel = models.StaffUser || model<IStaffUserMongoose>('StaffUser', StaffSchema);
+const m = () => model<IStaffUserMongoose>('StaffUser', StaffSchema)
+export const StaffModel = (models.StaffUser || m()) as ReturnType<typeof m>

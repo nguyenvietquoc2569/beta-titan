@@ -11,7 +11,7 @@ import { Button, Typography, Container, CircularProgress } from '@mui/material';
 import { Image, Page } from '@beta-titan/ledger/frontend/utilities/core-components';
 import { MotionContainer, varBounce } from '@beta-titan/ledger/frontend/utilities/ui-settings-fe';
 import { useEffect, useState } from 'react';
-import { fetcher } from '@beta-titan/beta/frontend/page-portal/shared/base-layout';
+import { fetcher } from '@beta-titan/ledger/frontend/utilities/shared';
 
 // ----------------------------------------------------------------------
 

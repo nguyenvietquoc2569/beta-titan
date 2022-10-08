@@ -21,4 +21,5 @@ const TagPeople: Schema = new Schema({
 }, { timestamps: {} });
 
 export type ITagPeopleMongoose = ITagPeople & Document
-export const TagPeopleModel = models.TagPeople || model<ITagPeopleMongoose>('TagPeople', TagPeople);
+const m = () => model<ITagPeopleMongoose>('TagPeople', TagPeople);
+export const TagPeopleModel = (models.TagPeople || m()) as ReturnType<typeof m>

@@ -29,4 +29,5 @@ const PointClientTransactionSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IPointClientTransactionMongoose = IPointClientTransaction & Document
-export const PointClientTransactionModel = models.PointClientTransactionModel || model<IPointClientTransactionMongoose>('PointClientTransactionModel', PointClientTransactionSchema);
+const m = () => model<IPointClientTransactionMongoose>('PointClientTransactionModel', PointClientTransactionSchema)
+export const PointClientTransactionModel = (models.PointClientTransactionModel || m()) as ReturnType<typeof m>

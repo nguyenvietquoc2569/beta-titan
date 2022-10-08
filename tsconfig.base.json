@@ -36,6 +36,9 @@
       "@beta-titan/ledger/frontend/utilities/ui-settings-fe": [
         "libs/ledger/frontend/utilities/ui-settings-fe/src/index.ts"
       ],
+      "@beta-titan/ledger/services/shared/midleware": [
+        "libs/ledger/services/shared/midleware/src/index.ts"
+      ],
       "@beta-titan/ledger/services/shared/utils": [
         "libs/ledger/services/shared/utils/src/index.ts"
       ],

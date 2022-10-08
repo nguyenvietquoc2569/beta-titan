@@ -12,4 +12,5 @@ const STOverrideRoom: Schema = new Schema({
 }, { timestamps: {} });
 
 export type ISTOverrideRoomMongoose = ISTOverrideRoom & Document
-export const STOverrideRoomModel = models.STOverrideRoom || model<ISTOverrideRoomMongoose>('STOverrideRoom', STOverrideRoom);
+const m = () => model<ISTOverrideRoomMongoose>('STOverrideRoom', STOverrideRoom)
+export const STOverrideRoomModel = (models.STOverrideRoom || m()) as ReturnType<typeof m>

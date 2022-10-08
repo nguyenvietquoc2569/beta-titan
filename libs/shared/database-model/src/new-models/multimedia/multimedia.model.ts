@@ -56,4 +56,7 @@ const MultiMediaSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IMultiMediaMongoose = IMultiMedia & Document
-export const MultiMediaModel = models.MultiMedia || model<IMultiMediaMongoose>('MultiMedia', MultiMediaSchema);
+const m = () => model<IMultiMediaMongoose>('MultiMedia', MultiMediaSchema)
+export const MultiMediaModel = (models.MultiMedia || m()) as ReturnType<typeof m>
+
+

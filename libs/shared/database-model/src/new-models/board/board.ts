@@ -38,4 +38,6 @@ const TaskBoardSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type ITaskBoardMongoose = ITaskBoard & Document
-export const TaskBoardModel = models.TaskBoard || model<ITaskBoardMongoose>('TaskBoard', TaskBoardSchema);
+
+const m = () => model<ITaskBoardMongoose>('TaskBoard', TaskBoardSchema);
+export const TaskBoardModel =(models.TaskBoard || m()) as ReturnType<typeof m>

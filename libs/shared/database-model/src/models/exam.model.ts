@@ -26,7 +26,10 @@ const ExamSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IExamMongoose = IExam & Document
-export const ExamModel = models.Exam || model<IExamMongoose>('Exam', ExamSchema);
+const m = () => model<IExamMongoose>('Exam', ExamSchema)
+export const ExamModel = (models.Exam || m()) as ReturnType<
+  typeof m
+>;
 
 //---- test
 

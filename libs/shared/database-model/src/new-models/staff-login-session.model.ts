@@ -20,4 +20,5 @@ const StaffLoginSessionSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IStaffLoginSessionMongoose = IStaffLoginSession & Document
-export const StaffLoginSessionModel = models.StaffLoginSession || model<IStaffLoginSessionMongoose>('StaffLoginSession', StaffLoginSessionSchema);
+const m = () => model<IStaffLoginSessionMongoose>('StaffLoginSession', StaffLoginSessionSchema)
+export const StaffLoginSessionModel = (models.StaffLoginSession || m()) as ReturnType<typeof m>

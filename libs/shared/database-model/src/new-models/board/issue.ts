@@ -102,4 +102,6 @@ const IssueSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IIssueMongoose = IIssue & Document
-export const IssueModel = models.Issue || model<IIssueMongoose>('Issue', IssueSchema);
+const m = () => model<IIssueMongoose>('Issue', IssueSchema)
+export const IssueModel = (models.Issue || m()) as ReturnType<typeof m>;
+

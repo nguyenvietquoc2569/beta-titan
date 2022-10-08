@@ -15,4 +15,6 @@ const KnowFaceDataSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IKnownFaceModelMongoose = IKnownFaceModel & Document
-export const KnownFaceDataModel = models.KnownFaceData || model<IKnownFaceModelMongoose>('KnownFaceData', KnowFaceDataSchema);
+
+const m = () => model<IKnownFaceModelMongoose>('KnownFaceData', KnowFaceDataSchema)
+export const KnownFaceDataModel = (models.KnownFaceData || m()) as ReturnType<typeof m>

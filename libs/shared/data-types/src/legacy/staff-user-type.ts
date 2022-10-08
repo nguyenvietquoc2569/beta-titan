@@ -1,5 +1,6 @@
 import { IGroup } from "..";
 import { IPeople } from "./people";
+import { ICenter } from '../athena/center'
 
 export interface IStaffUser {
   _id?: string,
@@ -14,7 +15,8 @@ export interface IStaffUser {
   linkPeople?: IPeople | null,
   groups?: Array<IGroup>,
   avatar?: string,
-  taskboardAvatar?: string
+  taskboardAvatar?: string,
+  preferCenter?: ICenter
 }
 
 export const defaultStaffUser: IStaffUser = {

@@ -33,4 +33,5 @@ const ArticleSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IArticleMongoose = IArticle & Document
-export const ArticleModel = models.Article || model<IArticleMongoose>('Article', ArticleSchema);
+const m = () => model<IArticleMongoose>('Article', ArticleSchema);
+export const ArticleModel =(models.Article || m()) as ReturnType<typeof m>

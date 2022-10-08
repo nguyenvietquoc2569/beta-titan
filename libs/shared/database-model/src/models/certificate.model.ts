@@ -46,4 +46,7 @@ const CertificateSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type ICertificateMongoose = ICertificate & Document
-export const CertificateModel = models.Certificate || model<ICertificateMongoose>('Certificate', CertificateSchema);
+const m = () => model<ICertificateMongoose>('Certificate', CertificateSchema)
+export const CertificateModel = (models.Certificate || m()) as ReturnType<
+typeof m
+>;

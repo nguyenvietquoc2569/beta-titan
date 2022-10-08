@@ -36,4 +36,5 @@ const ProblemSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IProblemMongoose = IProblem & Document
-export const ProblemModel = models.Problem || model<IProblemMongoose>('Problem', ProblemSchema);
+const m = () => model<IProblemMongoose>('Problem', ProblemSchema)
+export const ProblemModel = (models.Problem || m()) as ReturnType<typeof m>

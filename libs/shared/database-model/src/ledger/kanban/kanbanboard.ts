@@ -48,4 +48,7 @@ const KanbanBoardSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IKanbanBoardMongoose = IKanbanBoard & Document
-export const KanbanBoardModel = models.KanbanBoard || model<IKanbanBoardMongoose>('KanbanBoard', KanbanBoardSchema);
+const m = () => model<IKanbanBoardMongoose>('KanbanBoard', KanbanBoardSchema)
+export const KanbanBoardModel = (models.KanbanBoard || m()) as ReturnType<
+  typeof m
+>;

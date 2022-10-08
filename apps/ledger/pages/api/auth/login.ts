@@ -1,11 +1,11 @@
-import {getCenterPermissionForUser, withSession} from '@beta-titan/beta/backend'
+import { getCenterPermissionForUser, withSession } from '@beta-titan/ledger/services/shared/midleware'
 import { StaffModel, StaffLoginSessionModel } from '@beta-titan/shared/database-model'
 import { ELoginRole, EPeopleType, EPermission, ICenter, IGroup } from '@beta-titan/shared/data-types';
 import { getEnvConfig } from '@beta-titan/shared/utilities';
 import { ObjectId } from 'mongodb';
 import { uid } from 'uid';
 import multiavatar from '@multiavatar/multiavatar'
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt') // eslint-disable-line
 
 export default withSession(async (req, res) => {
   const { username, password } = await req.body

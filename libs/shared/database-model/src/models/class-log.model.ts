@@ -70,4 +70,7 @@ const ClassLogSchema: Schema = new Schema({
   }
 })
 export type IClassLogMongoose = IClassLog & Document
-export const ClassLogModel = models.ClassLog || model<IClassLogMongoose>('ClassLog', ClassLogSchema);
+const m = () => model<IClassLogMongoose>('ClassLog', ClassLogSchema)
+export const ClassLogModel = (models.ClassLog || m()) as ReturnType<
+  typeof m
+>;

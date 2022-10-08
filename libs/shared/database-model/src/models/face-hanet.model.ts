@@ -21,4 +21,7 @@ const FaceDataSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IFaceDataMongoose = IFaceHanetData & Document
-export const FaceDataModel = models.FaceData || model<IFaceDataMongoose>('FaceData', FaceDataSchema);
+const m = () => model<IFaceDataMongoose>('FaceData', FaceDataSchema)
+export const FaceDataModel = (models.FaceData || m()) as ReturnType<
+typeof m
+>

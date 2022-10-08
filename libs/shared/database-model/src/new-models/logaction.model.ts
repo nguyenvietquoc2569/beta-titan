@@ -17,4 +17,5 @@ const LogActionSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type ILogActionMongoose = ILogAction & Document
-export const LogActionModel = models.LogAction || model<ILogActionMongoose>('LogAction', LogActionSchema);
+const m = () => model<ILogActionMongoose>('LogAction', LogActionSchema)
+export const LogActionModel = (models.LogAction || m()) as ReturnType<typeof m>;

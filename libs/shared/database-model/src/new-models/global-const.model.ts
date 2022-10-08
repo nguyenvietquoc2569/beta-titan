@@ -5,4 +5,5 @@ const GlobalConstSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IGlobalConstMongoose = IGlobalConst & Document
-export const GlobalConst = models.GlobalConst || model<IGlobalConstMongoose>('GlobalConst', GlobalConstSchema);
+const m = () => model<IGlobalConstMongoose>('GlobalConst', GlobalConstSchema)
+export const GlobalConst = (models.GlobalConst || m()) as ReturnType<typeof m>;

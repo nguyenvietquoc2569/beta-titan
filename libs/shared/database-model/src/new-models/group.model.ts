@@ -16,4 +16,5 @@ const GroupSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IGroupMongoose = IGroup & Document
-export const GroupModel = models.Group || model<IGroupMongoose>('Group', GroupSchema);
+const m = () => model<IGroupMongoose>('Group', GroupSchema)
+export const GroupModel = models.Group || m();

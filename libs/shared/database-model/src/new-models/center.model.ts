@@ -15,4 +15,5 @@ const CenterSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type ICenterMongoose = ICenter & Document
-export const CenterModel = models.Center || model<ICenterMongoose>('Center', CenterSchema);
+const m = () => model<ICenterMongoose>('Center', CenterSchema)
+export const CenterModel = (models.Center || m()) as ReturnType<typeof m>

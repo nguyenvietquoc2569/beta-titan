@@ -7,4 +7,7 @@ const CenterOnlineRawDataSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type ICenterOnlineDataMongoose = ICenterOnlineData & Document
-export const CenterOnlineDataModel = models.CenterOnlineRaw || model<ICenterOnlineDataMongoose>('CenterOnlineRaw', CenterOnlineRawDataSchema);
+const m = () => model<ICenterOnlineDataMongoose>('CenterOnlineRaw', CenterOnlineRawDataSchema)
+export const CenterOnlineDataModel = (models.CenterOnlineRaw || m()) as ReturnType<
+typeof m
+>

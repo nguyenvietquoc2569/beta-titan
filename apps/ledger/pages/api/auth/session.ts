@@ -1,4 +1,4 @@
-import { withSession, withUserParse } from '@beta-athena/beta/backend'
+import { withSession, withUserParse } from '@beta-titan/ledger/services/shared/midleware'
 
 export default withSession(withUserParse(async (req, res) => {
   const session = req.loginSession

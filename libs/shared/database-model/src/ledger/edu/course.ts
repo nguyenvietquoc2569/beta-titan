@@ -29,4 +29,5 @@ const CourseSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type ICourseMongoose = ICourse & Document
-export const CourseModel = models.Course || model<ICourseMongoose>('Course', CourseSchema);
+const m = () => model<ICourseMongoose>('Course', CourseSchema)
+export const CourseModel = (models.Course || m()) as ReturnType<typeof m>

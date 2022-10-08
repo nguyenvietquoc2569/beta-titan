@@ -34,5 +34,8 @@ const FaceImageSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IFaceImageMongoose = IFaceImage & Document
-export const FaceImageModel = models.FaceImage || model<IFaceImageMongoose>('FaceImage', FaceImageSchema);
-export const OldFaceImageModel = models.OldFaceImage || model<IFaceImageMongoose>('OldFaceImage', FaceImageSchema);
+const m = () => model<IFaceImageMongoose>('FaceImage', FaceImageSchema)
+export const FaceImageModel = (models.FaceImage || m()) as ReturnType<typeof m>;
+
+const m1 = () => model<IFaceImageMongoose>('OldFaceImage', FaceImageSchema)
+export const OldFaceImageModel = (models.OldFaceImage || m1())as ReturnType<typeof m1>;

@@ -46,4 +46,5 @@ const HistorySchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IHistoryMongoose = IHistory & Document
-export const HistoryModel = models.History || model<IHistoryMongoose>('History', HistorySchema);
+const m = () => model<IHistoryMongoose>('History', HistorySchema)
+export const HistoryModel = (models.History || m()) as ReturnType<typeof m>;

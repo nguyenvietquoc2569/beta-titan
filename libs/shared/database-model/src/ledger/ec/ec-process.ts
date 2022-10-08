@@ -48,4 +48,7 @@ const ECProcessSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IECProcessMongoose = IECProcess & Document
-export const ECProcessModel = models.ECProcess || model<IECProcessMongoose>('ECProcess', ECProcessSchema);
+const m = () => model<IECProcessMongoose>('ECProcess', ECProcessSchema)
+export const ECProcessModel = (models.ECProcess || m()) as ReturnType<
+  typeof m
+>

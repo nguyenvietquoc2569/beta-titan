@@ -42,7 +42,8 @@ const ExamSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IBetaTestMongoose = IBetaTest & Document
-export const BetaTestModel = models.BetaTest || model<IBetaTestMongoose>('BetaTest', ExamSchema);
+const m = () => model<IBetaTestMongoose>('BetaTest', ExamSchema)
+export const BetaTestModel = (models.BetaTest || m()) as ReturnType<typeof m>
 
 //---- test
 

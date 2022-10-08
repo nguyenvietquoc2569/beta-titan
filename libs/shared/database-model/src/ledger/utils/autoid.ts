@@ -8,4 +8,7 @@ const AutoIdSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IAutoIdMongoose = IAutoId & Document
-export const AutoIdModel = models.AutoId || model<IAutoIdMongoose>('AutoId', AutoIdSchema);
+const m = () => model<IAutoIdMongoose>('AutoId', AutoIdSchema)
+export const AutoIdModel = (models.AutoId || m()) as ReturnType<
+  typeof m
+>

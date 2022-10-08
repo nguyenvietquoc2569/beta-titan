@@ -72,4 +72,5 @@ const PeopleSchema: Schema = new Schema({
 }, { timestamps: {} });
 
 export type IPeopleMongoose = IPeople & Document
-export const PeopleModel = models.People || model<IPeopleMongoose>('People', PeopleSchema);
+const m = () => model<IPeopleMongoose>('People', PeopleSchema)
+export const PeopleModel = (models.People || m()) as ReturnType<typeof m>

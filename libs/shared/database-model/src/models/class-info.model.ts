@@ -24,4 +24,8 @@ const ClassInfoSchema: Schema = new Schema({
 })
 
 export type IClassInfoMongoose = IClassInfo & Document
-export const ClassInfoModel = models.ClassInfo || model<IClassInfoMongoose>('ClassInfo', ClassInfoSchema);
+const m = () => model<IClassInfoMongoose>('ClassInfo', ClassInfoSchema)
+export const ClassInfoModel = (models.ClassInfo || m()) as ReturnType<
+  typeof m
+>
+
