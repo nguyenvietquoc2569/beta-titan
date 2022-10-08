@@ -1,0 +1,26 @@
+{
+  "name": "ledger-frontend-edu-course",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ledger/frontend/edu/course/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ledger/frontend/edu/course/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ledger/frontend/edu/course"],
+      "options": {
+        "jestConfig": "libs/ledger/frontend/edu/course/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

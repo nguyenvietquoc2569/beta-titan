@@ -1,0 +1,26 @@
+{
+  "name": "ledger-frontend-auth-login-page",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ledger/frontend/auth/login-page/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ledger/frontend/auth/login-page/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ledger/frontend/auth/login-page"],
+      "options": {
+        "jestConfig": "libs/ledger/frontend/auth/login-page/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

@@ -15,6 +15,27 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@beta-titan/ledger/frontend/auth/login-page": [
+        "libs/ledger/frontend/auth/login-page/src/index.ts"
+      ],
+      "@beta-titan/ledger/frontend/edu/course": [
+        "libs/ledger/frontend/edu/course/src/index.ts"
+      ],
+      "@beta-titan/ledger/frontend/kanban": [
+        "libs/ledger/frontend/kanban/src/index.ts"
+      ],
+      "@beta-titan/ledger/frontend/utilities/core-components": [
+        "libs/ledger/frontend/utilities/core-components/src/index.ts"
+      ],
+      "@beta-titan/ledger/frontend/utilities/shared": [
+        "libs/ledger/frontend/utilities/shared/src/index.ts"
+      ],
+      "@beta-titan/ledger/frontend/utilities/ui-layout-fe": [
+        "libs/ledger/frontend/utilities/ui-layout-fe/src/index.ts"
+      ],
+      "@beta-titan/ledger/frontend/utilities/ui-settings-fe": [
+        "libs/ledger/frontend/utilities/ui-settings-fe/src/index.ts"
+      ],
       "@beta-titan/ledger/services/shared/utils": [
         "libs/ledger/services/shared/utils/src/index.ts"
       ],

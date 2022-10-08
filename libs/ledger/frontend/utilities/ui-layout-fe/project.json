@@ -1,0 +1,26 @@
+{
+  "name": "ledger-frontend-utilities-ui-layout-fe",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ledger/frontend/utilities/ui-layout-fe/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ledger/frontend/utilities/ui-layout-fe/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ledger/frontend/utilities/ui-layout-fe"],
+      "options": {
+        "jestConfig": "libs/ledger/frontend/utilities/ui-layout-fe/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

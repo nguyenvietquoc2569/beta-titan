@@ -1,0 +1,24 @@
+{
+  "name": "ledger-frontend-kanban",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ledger/frontend/kanban/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/ledger/frontend/kanban/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ledger/frontend/kanban"],
+      "options": {
+        "jestConfig": "libs/ledger/frontend/kanban/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

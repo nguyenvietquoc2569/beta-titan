@@ -1,0 +1,26 @@
+{
+  "name": "ledger-frontend-utilities-shared",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ledger/frontend/utilities/shared/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ledger/frontend/utilities/shared/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ledger/frontend/utilities/shared"],
+      "options": {
+        "jestConfig": "libs/ledger/frontend/utilities/shared/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}
