@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@beta-titan/ledger/services/shared/utils": [
+        "libs/ledger/services/shared/utils/src/index.ts"
+      ],
       "@beta-titan/shared/data-types": ["libs/shared/data-types/src/index.ts"],
       "@beta-titan/shared/database-model": [
         "libs/shared/database-model/src/index.ts"
