@@ -17,4 +17,4 @@ const GroupSchema: Schema = new Schema({
 
 export type IGroupMongoose = IGroup & Document
 const m = () => model<IGroupMongoose>('Group', GroupSchema)
-export const GroupModel = models.Group || m();
+export const GroupModel = (models.Group || m()) as ReturnType<typeof m>;
