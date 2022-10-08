@@ -14,7 +14,13 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@beta-titan/shared/data-types": ["libs/shared/data-types/src/index.ts"],
+      "@beta-titan/shared/database-model": [
+        "libs/shared/database-model/src/index.ts"
+      ],
+      "@beta-titan/shared/utilities": ["libs/shared/utilities/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
