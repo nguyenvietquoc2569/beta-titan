@@ -34,7 +34,6 @@ function staffToOption (staff: IStaffUser) {
 export default function RHFCurrentCenterStaffPickup({ name, children, ...other }: Props) {
   const { control } = useFormContext()
   const [options, setOptions] = React.useState<readonly IStaffUser[]>([]);
-  const [value, setValue] = React.useState<Array<IStaffUser>>([])
   const loaded = React.useRef(false)
   const [inputValue, setInputValue] = React.useState('')
 
@@ -74,16 +73,13 @@ export default function RHFCurrentCenterStaffPickup({ name, children, ...other }
     let active = true
     
     if (inputValue === '') {
-      setOptions(value.length ? (value) : []);
+      setOptions([]);
       return undefined;
     }
 
     fetch({ input: inputValue }, (results: readonly IStaffUser[]) => {
       if (active) {
         let newOptions: readonly IStaffUser[] = [];
-        if (value.length) {
-          newOptions = value;
-        }
         if (results) {
           newOptions = [...newOptions, ...results];
         }
@@ -94,7 +90,7 @@ export default function RHFCurrentCenterStaffPickup({ name, children, ...other }
     return () => {
       active = false;
     };
-  }, [value, inputValue, fetch])
+  }, [inputValue, fetch])
 
   return (
     <Controller

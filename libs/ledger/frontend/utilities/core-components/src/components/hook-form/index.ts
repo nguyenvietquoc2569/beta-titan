@@ -13,3 +13,5 @@ export { default as RHFDatePicker } from './RHFDatePicker'
 export { default as FormProvider } from './FormProvider';
 export { default as RHFCurrentCenterStaffPickup} from './RHFCurrentCenterStaffPickup'
 export { default as RHFCurrentCenterSingleStaffPickup} from './RHFCurrentCenterSingleStaffPickup'
+export { default as RHLabelCreateList } from './RHLabelCreateList'
+

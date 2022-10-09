@@ -1,4 +1,4 @@
-import { fData, FormProvider, RHFCurrentCenterStaffPickup, RHFTextField, UploadAvatar } from '@beta-titan/ledger/frontend/utilities/core-components'
+import { fData, FormProvider, RHFCurrentCenterStaffPickup, RHFTextField, RHLabelCreateList, UploadAvatar } from '@beta-titan/ledger/frontend/utilities/core-components'
 import { Box, Card, Grid, Typography } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { LoadingButton } from '@mui/lab'
@@ -166,6 +166,7 @@ export const BoardEditUI = ({board}: Props) => {
             <RHFCurrentCenterStaffPickup name='managers' label={ttt('Quản trị board', "Board Managers")}
               placeholder={ttt('Nhập username', "input username")}
             />
+            <RHLabelCreateList name='labels' label={ttt('Danh sách tags', 'tags list')} />
           </Box>
         </Card>
       </Grid>
