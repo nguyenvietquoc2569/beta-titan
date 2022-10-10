@@ -15,18 +15,7 @@ type IProps = {
 };
 
 type Props = IProps & TextFieldProps;
-interface PropsOptions {
-  value: any, label: ReactNode
-}
 
-function staffArrayToOptions (staffs: Array<IStaffUser>): Array<PropsOptions> {
-  return staffs.map((v:IStaffUser) => {
-    return {
-      value: v,
-      label: (<><Typography color={'CaptionText'}>{v.name} </Typography> | <Typography color={'InfoText'}>{v.username}</Typography> | <Typography color='GrayText'>{v.emailid}</Typography></>)
-    }
-  })
-}
 function staffToOption (staff: IStaffUser) {
   return `${staff.username} (${staff.emailid})`
 }
@@ -34,8 +23,6 @@ function staffToOption (staff: IStaffUser) {
 export default function RHFCurrentCenterSingleStaffPickup({ name, children, ...other }: Props) {
   const { control } = useFormContext()
   const [options, setOptions] = React.useState<readonly IStaffUser[]>([]);
-  const [value, setValue] = React.useState<Array<IStaffUser>>([])
-  const loaded = React.useRef(false)
   const [inputValue, setInputValue] = React.useState('')
 
 
@@ -72,18 +59,15 @@ export default function RHFCurrentCenterSingleStaffPickup({ name, children, ...o
 
   React.useEffect(() => {
     let active = true
-    
+
     if (inputValue === '') {
-      setOptions(value.length ? (value) : []);
+      setOptions([]);
       return undefined;
     }
 
     fetch({ input: inputValue }, (results: readonly IStaffUser[]) => {
       if (active) {
         let newOptions: readonly IStaffUser[] = [];
-        if (value.length) {
-          newOptions = value;
-        }
         if (results) {
           newOptions = [...newOptions, ...results];
         }
@@ -94,28 +78,20 @@ export default function RHFCurrentCenterSingleStaffPickup({ name, children, ...o
     return () => {
       active = false;
     };
-  }, [value, inputValue, fetch])
+  }, [inputValue, fetch])
 
-  return <>not implemented</>
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
         <Autocomplete
-          multiple
-          id="tags-standard"
+          id="single_people_pick_up"
           options={options}
           getOptionLabel={(option) => staffToOption(option)}
-          // value={value}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
           }}
-          renderTags={(value: readonly IStaffUser[], getTagProps) =>
-            value.map((option: IStaffUser, index: number) => (
-              <Chip variant="outlined" label={`${option.username} (${option.emailid})`} {...getTagProps({ index })} />
-            ))
-          }
           renderInput={(params) => (
             <TextField
               {...params}
@@ -128,8 +104,7 @@ export default function RHFCurrentCenterSingleStaffPickup({ name, children, ...o
           {...field}
           value={field.value}
           onChange={(e, data) => {
-            const _data = [...new Map(data.map((m) => [m._id, m])).values()];
-            field.onChange(_data)
+            field.onChange(data)
           }}
         />
       )}
