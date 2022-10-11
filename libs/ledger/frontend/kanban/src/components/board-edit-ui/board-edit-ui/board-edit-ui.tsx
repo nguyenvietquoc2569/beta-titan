@@ -1,23 +1,26 @@
-import { fData, FormProvider, RHFCurrentCenterSingleStaffPickup, RHFCurrentCenterStaffPickup, RHFTextField, RHLabelCreateList, UploadAvatar } from '@beta-titan/ledger/frontend/utilities/core-components'
-import { Box, Card, Grid, Typography } from '@mui/material'
+import { fData, FormProvider, RHFCurrentCenterSingleStaffPickup, RHFCurrentCenterStaffPickup, RHFSwitch, RHFTextField, RHLabelCreateList, UploadAvatar } from '@beta-titan/ledger/frontend/utilities/core-components'
+import { Box, Card, Grid, Stack, Typography } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { LoadingButton } from '@mui/lab'
 import * as Yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { useLangContext } from '@beta-titan/ledger/frontend/utilities/ui-layout-fe'
-import { IKanbanBoard } from '@beta-titan/shared/data-types'
+import { IKanbanBoard, IStaffUser } from '@beta-titan/shared/data-types'
 import { useState } from 'react'
 import axios from 'axios'
 import * as CryptoJS from 'crypto-js';
 /* eslint-disable-next-line @typescript-eslint/no-var-requires */
 const sanitize = require("sanitize-filename")
 
-type FormValuesProps = IKanbanBoard
+type FormValuesProps = any //IKanbanBoard
 interface Props {
-  board: IKanbanBoard
+  board: IKanbanBoard,
+  submitData: (data: IKanbanBoard) => void,
+  submitText: string,
+  isSubmitting: boolean
 }
 
-export const BoardEditUI = ({board}: Props) => {
+export const BoardEditUI = ({board, submitText, submitData, isSubmitting}: Props) => {
   const { ttt } = useLangContext()
   const [upLoadProgress, setUploadProgress] = useState<number | undefined>(undefined)
   const uploadFile = ({ authToken, uploadUrl, file, folder, host }: { host: string, authToken: string, uploadUrl: string, file: File, folder: string }, options: any) => {
@@ -85,22 +88,47 @@ export const BoardEditUI = ({board}: Props) => {
   };
 
   const BoardSchema = Yup.object().shape({
+
     name: Yup.string().required(ttt('Tên không thể để trống', 'Name is required')),
-    description: Yup.string().required(ttt('Chú giải không thể để trống', 'Description is required')),
-    birthday: Yup.date().required(ttt('Ngày sinh không thể để trống', 'Birthday is required')),
-    phone: Yup.string().required(ttt('Điện thoại không thể để trống', 'Phone number is required')),
-    address: Yup.string().required(ttt('Địa chỉ không thể để trống', 'Address is required')),
+    description: Yup.string().required(ttt('Mô tả không thể để trống', 'Description is required')),
+    workingStaffs: Yup.array().min(1, ttt('Phải có ít nhất một nhân viên', 'Can not be empty here')),
+    managers: Yup.array().min(1, ttt('Phải có ít nhất một quản trị viên', 'Can not be empty here')).test('managers', ttt('Người quản trị phải nằm trong danh sách thành viên', 'Manager should be in the member list'), 
+      (value, ctx) => {
+        const { workingStaffs } = ctx.parent
+        const workingStaffsId = workingStaffs.map((staff: IStaffUser) => staff._id)
+        for (const staff of (value || [])) {
+          if (!workingStaffsId.includes(staff._id)) return false
+        }
+        return true
+      }),
+    defaultAssignee: Yup.object().required(ttt('Phải có ít nhất một nhân viên', 'Can not be empty here')).test('defaultAssignee', ttt('Người quản trị phải nằm trong danh sách thành viên', 'Manager should be in the member list'), 
+      (value, ctx) => {
+        if (!value) return false
+        const { workingStaffs } = ctx.parent
+        const workingStaffsId = workingStaffs.map((staff: IStaffUser) => staff._id)
+        if (!workingStaffsId.includes(value['_id'])) return false
+        return true
+      }),
+    labels: Yup.array().min(1, ttt('ít nhất phải có 1 tag', 'at least 1 tag inputted'))
+
+    // birthday: Yup.date().required(ttt('Ngày sinh không thể để trống', 'Birthday is required')),
+    // phone: Yup.string().required(ttt('Điện thoại không thể để trống', 'Phone number is required')),
+    // address: Yup.string().required(ttt('Địa chỉ không thể để trống', 'Address is required')),
   });
 
   const methods = useForm<FormValuesProps>({
-    resolver: yupResolver(BoardSchema),
+    resolver: async (data, context, options) => {
+      // console.log(data)
+      // let a = await (yupResolver(BoardSchema)(data, context, options))
+      // console.log(a)
+      return yupResolver(BoardSchema)(data, context, options)
+    },
     defaultValues: board,
   });
 
   const _onSubmit = (data: FormValuesProps) => {
-    console.log('test')
     try {
-      onSubmit(data)
+      submitData(data)
     } catch (error) {
       console.error(error);
     }
@@ -159,6 +187,7 @@ export const BoardEditUI = ({board}: Props) => {
             }}
           >
             <RHFTextField name="name" label={ttt('Tên Board', "Board name")} />
+            <RHFSwitch name='deactive' label={ttt('Dừng hoạt động', "Disable the board")} />
             <RHFTextField name="description" label={ttt('Mô tả', "Description")} />
             <RHFCurrentCenterStaffPickup name='workingStaffs' label={ttt('Thành viên', "Members")}
               placeholder={ttt('Nhập username', "input username")}
@@ -171,6 +200,11 @@ export const BoardEditUI = ({board}: Props) => {
             />
             <RHLabelCreateList name='labels' label={ttt('Danh sách tags', 'tags list')} />
           </Box>
+          <Stack alignItems="flex-end" sx={{ mt: 3 }}>
+            <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+              {submitText}
+            </LoadingButton>
+          </Stack>
         </Card>
       </Grid>
     </Grid>
