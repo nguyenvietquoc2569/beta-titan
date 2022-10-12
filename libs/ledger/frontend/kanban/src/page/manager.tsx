@@ -2,7 +2,7 @@ import { HeaderBreadcrumbs, Iconify } from '@beta-titan/ledger/frontend/utilitie
 import { useLangContext } from '@beta-titan/ledger/frontend/utilities/ui-layout-fe';
 import { useSettings } from '@beta-titan/ledger/frontend/utilities/ui-settings-fe';
 import { Button, Container } from '@mui/material';
-import { useState } from 'react';
+import { ForwardRefExoticComponent, RefAttributes, useState } from 'react';
 import { BoardNewModal } from '../components/board-edit-ui/board-new-modal/board-new-modal';
 import { KanbanBoardManagerTable } from '../components/manager/kanban-board-manager-table';
 
@@ -11,6 +11,8 @@ export const KanbanManagerPage = () => {
   const [isOpenModal, setOpenModal] = useState(false)
   const { tt } = useLangContext()
 
+  type EditArticleModalHandle<T> = (T extends ForwardRefExoticComponent<RefAttributes<infer T2>> ? T2 : never) | null;
+  let tableRef: EditArticleModalHandle<typeof KanbanBoardManagerTable>
 
   return <Container maxWidth={themeStretch ? false : 'xl'} sx={{padding: 0}}>
     <HeaderBreadcrumbs
@@ -36,7 +38,7 @@ export const KanbanManagerPage = () => {
       </>
       }
     />
-    <KanbanBoardManagerTable />
-    <BoardNewModal isOpenModal={isOpenModal} onClose={()=> {setOpenModal(false)}}></BoardNewModal>
+    <KanbanBoardManagerTable ref={(c) => tableRef = c} />
+    <BoardNewModal isOpenModal={isOpenModal} onClose={()=> {setOpenModal(false); tableRef?.reload()}}></BoardNewModal>
   </Container>
 }

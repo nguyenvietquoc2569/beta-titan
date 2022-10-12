@@ -1,15 +1,17 @@
-import { Avatar, Label, TableHeadCustom, useTable, useTabs } from '@beta-titan/ledger/frontend/utilities/core-components';
+import { Avatar, Label, TableEmptyRows, TableHeadCustom, useTable, useTabs } from '@beta-titan/ledger/frontend/utilities/core-components';
 import { useLangContext } from '@beta-titan/ledger/frontend/utilities/ui-layout-fe';
 import { Scrollbar } from '@beta-titan/ledger/frontend/utilities/ui-settings-fe';
 import { IKanbanBoard } from '@beta-titan/shared/data-types';
-import { Card, Divider, Grid, Stack, Tab, Table, TableBody, TableCell, TableContainer, TableRow, Tabs } from '@mui/material'
-import { useEffect, useMemo, useState } from 'react'
+import { Box, Card, Divider, FormControlLabel, Grid, Stack, Switch, Tab, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow, Tabs } from '@mui/material'
+import { forwardRef, Ref, useEffect, useImperativeHandle, useMemo, useState } from 'react'
 import { useTheme } from '@mui/material/styles'
 import axios from 'axios';
 
 const STATUS_OPTIONS = ['all', 'active', 'disabled'];
 
-export const KanbanBoardManagerTable = () => {
+export const KanbanBoardManagerTable = forwardRef((props, ref: Ref<{
+  reload: () => void
+}>) => {
   const { currentTab: filterStatus, onChangeTab: onChangeFilterStatus } = useTabs('all');
   const [boards, setBoards] = useState<Array<IKanbanBoard>>([])
   const { tt } = useLangContext()
@@ -46,6 +48,8 @@ export const KanbanBoardManagerTable = () => {
     onChangeRowsPerPage,
   } = useTable();
 
+  const denseHeight = dense ? 52 : 72;
+
   const reload = () => {
     setLoading(true)
     axios({
@@ -73,6 +77,13 @@ export const KanbanBoardManagerTable = () => {
       // message.error(res.data.error[t('language')])
     })
   }
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      reload
+    }),
+  )
 
   useEffect(() => {
     reload() 
@@ -132,9 +143,35 @@ export const KanbanBoardManagerTable = () => {
                   </TableCell>
                 </TableRow>
               ))}
+            <TableEmptyRows
+              height={denseHeight}
+              emptyRows={emptyRows(page, rowsPerPage, dataFiltered.length)}
+            />
           </TableBody>
         </Table>
       </TableContainer>
     </Scrollbar>
+    <Box sx={{ position: 'relative' }}>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={dataFiltered.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={onChangePage}
+        onRowsPerPageChange={onChangeRowsPerPage}
+      />
+
+      <FormControlLabel
+        control={<Switch checked={dense} onChange={onChangeDense} />}
+        label="Dense"
+        sx={{ px: 3, py: 1.5, top: 0, position: { md: 'absolute' } }}
+      />
+    </Box>
   </Card>
+})
+
+export function emptyRows(page: number, rowsPerPage: number, arrayLength: number) {
+  return page > 0 ? Math.max(0, (1 + page) * rowsPerPage - arrayLength) : 0;
 }
+
