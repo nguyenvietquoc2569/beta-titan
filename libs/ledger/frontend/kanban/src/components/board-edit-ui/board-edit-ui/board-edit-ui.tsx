@@ -183,7 +183,7 @@ export const BoardEditUI = ({board, submitText, submitData, isSubmitting}: Props
               display: 'grid',
               columnGap: 2,
               rowGap: 3,
-              gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
+              gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(1, 1fr)' },
             }}
           >
             <RHFTextField name="name" label={ttt('Tên Board', "Board name")} />

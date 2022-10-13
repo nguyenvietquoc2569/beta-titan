@@ -2,17 +2,19 @@ import { HeaderBreadcrumbs, Iconify } from '@beta-titan/ledger/frontend/utilitie
 import { useLangContext } from '@beta-titan/ledger/frontend/utilities/ui-layout-fe';
 import { useSettings } from '@beta-titan/ledger/frontend/utilities/ui-settings-fe';
 import { Button, Container } from '@mui/material';
-import { ForwardRefExoticComponent, RefAttributes, useState } from 'react';
+import { useState } from 'react';
+import { BoardEditModal } from '../components/board-edit-ui/board-edit-modal/board-edit-modal';
 import { BoardNewModal } from '../components/board-edit-ui/board-new-modal/board-new-modal';
-import { KanbanBoardManagerTable } from '../components/manager/kanban-board-manager-table';
+import { KanbanBoardManagerTable, KanbanBoardManagerTableRef } from '../components/manager/kanban-board-manager-table';
 
 export const KanbanManagerPage = () => {
   const { themeStretch } = useSettings();
   const [isOpenModal, setOpenModal] = useState(false)
+  const [isOpenEditModal, setOpenEditModal] = useState(false)
+  const [codeEdit, setCodeEdit] = useState('')
   const { tt } = useLangContext()
 
-  type EditArticleModalHandle<T> = (T extends ForwardRefExoticComponent<RefAttributes<infer T2>> ? T2 : never) | null;
-  let tableRef: EditArticleModalHandle<typeof KanbanBoardManagerTable>
+  let tableRef: KanbanBoardManagerTableRef
 
   return <Container maxWidth={themeStretch ? false : 'xl'} sx={{padding: 0}}>
     <HeaderBreadcrumbs
@@ -38,7 +40,15 @@ export const KanbanManagerPage = () => {
       </>
       }
     />
-    <KanbanBoardManagerTable ref={(c) => tableRef = c} />
+    <KanbanBoardManagerTable ref={(c) => tableRef = c} onEditClick={(_code: string) => {
+      setCodeEdit(_code)
+      setOpenEditModal(true)
+    }} />
     <BoardNewModal isOpenModal={isOpenModal} onClose={()=> {setOpenModal(false); tableRef?.reload()}}></BoardNewModal>
+    <BoardEditModal
+      isOpenModal={isOpenEditModal}
+      onClose={() => { setOpenEditModal(false); setCodeEdit(''); tableRef?.reload() }}
+      code={codeEdit}
+    ></BoardEditModal>
   </Container>
 }

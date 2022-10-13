@@ -2,14 +2,21 @@ import { Avatar, Label, TableEmptyRows, TableHeadCustom, useTable, useTabs } fro
 import { useLangContext } from '@beta-titan/ledger/frontend/utilities/ui-layout-fe';
 import { Scrollbar } from '@beta-titan/ledger/frontend/utilities/ui-settings-fe';
 import { IKanbanBoard } from '@beta-titan/shared/data-types';
-import { Box, Card, Divider, FormControlLabel, Grid, Stack, Switch, Tab, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow, Tabs } from '@mui/material'
-import { forwardRef, Ref, useEffect, useImperativeHandle, useMemo, useState } from 'react'
+import { Box, Button, Card, CircularProgress, Container, Divider, FormControlLabel, Grid, Stack, Switch, Tab, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow, Tabs } from '@mui/material'
+import { forwardRef, ForwardRefExoticComponent, Ref, RefAttributes, useEffect, useImperativeHandle, useMemo, useState } from 'react'
 import { useTheme } from '@mui/material/styles'
 import axios from 'axios';
 
 const STATUS_OPTIONS = ['all', 'active', 'disabled'];
 
-export const KanbanBoardManagerTable = forwardRef((props, ref: Ref<{
+interface Props {
+  onEditClick: (_code: string) => void
+}
+
+type RefType<T> = (T extends ForwardRefExoticComponent<Props & RefAttributes<infer T2>> ? T2 : never) | null;
+export type KanbanBoardManagerTableRef = RefType<typeof KanbanBoardManagerTable>
+
+export const KanbanBoardManagerTable = forwardRef(({onEditClick}: Props, ref: Ref<{
   reload: () => void
 }>) => {
   const { currentTab: filterStatus, onChangeTab: onChangeFilterStatus } = useTabs('all');
@@ -19,8 +26,19 @@ export const KanbanBoardManagerTable = forwardRef((props, ref: Ref<{
   const theme = useTheme()
   
   const dataFiltered = useMemo(() => {
-    return boards
-  }, [boards])
+    return boards.filter(board => {
+      if (filterStatus === STATUS_OPTIONS[0]) {
+        return !!board
+      }
+      if (filterStatus === STATUS_OPTIONS[1]) {
+        return board.deactive === false
+      }
+      if (filterStatus === STATUS_OPTIONS[2]) {
+        return board.deactive === true
+      }
+      return true
+    })
+  }, [boards, filterStatus])
 
   const TABLE_HEAD = [
     { id: 'id', label: tt(['Mã', 'Code']), align: 'left' },
@@ -81,7 +99,7 @@ export const KanbanBoardManagerTable = forwardRef((props, ref: Ref<{
   useImperativeHandle(
     ref,
     () => ({
-      reload
+      reload,
     }),
   )
 
@@ -121,7 +139,7 @@ export const KanbanBoardManagerTable = forwardRef((props, ref: Ref<{
             // }
           />
           <TableBody>
-            {dataFiltered
+            {!isLoading && dataFiltered
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
                 <TableRow hover key={row._id}>
@@ -141,12 +159,20 @@ export const KanbanBoardManagerTable = forwardRef((props, ref: Ref<{
                       {!row.deactive ? tt(['Đang hoạt đông', 'Active']) : tt(['Ngừng hoạt động', 'Disabled'])}
                     </Label>
                   </TableCell>
+                  <TableCell>
+                    <Button onClick={() => onEditClick(row.code)}>{tt(['Sửa', 'Edit'])}</Button>
+                  </TableCell>
                 </TableRow>
               ))}
             <TableEmptyRows
               height={denseHeight}
               emptyRows={emptyRows(page, rowsPerPage, dataFiltered.length)}
             />
+            {(isLoading ) && <Container sx={{
+              padding: 5,
+              alignContent: 'center',
+              textAlign: 'center'
+            }}><CircularProgress /></Container>}
           </TableBody>
         </Table>
       </TableContainer>

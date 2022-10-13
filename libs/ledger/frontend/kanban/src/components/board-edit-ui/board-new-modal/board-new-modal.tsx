@@ -48,7 +48,7 @@ export const BoardNewModal = ({isOpenModal, onClose }: Props) => {
     board={defaultIKanbanBoard}
     submitData={newBoard}
     submitText={ttt('Tạo Một Board', 'Create New Board')}
-    isSubmitting={false}
+    isSubmitting={isLoading}
   ></BoardEditUI>
 </DialogAnimate>
 }
